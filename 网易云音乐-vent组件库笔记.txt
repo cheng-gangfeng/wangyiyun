@@ -1,0 +1,212 @@
+项目简单思路： 写组件->配置路由->导航->网络封装
+
+写组件思路 搭结构请求数据循环渲染页面。
+
+
+
+A 项目初始化 -环境的安装-组件和路由的配置。
+
+1.目的：熟练的使用vent组件库。
+文档
+2.跨域
+前端项目地址和请求的服务器地址 协议 域名 端口号有任意一个不一致。
+解决方法，代理服务器，后端配置cors ,jsonp
+这里真的开发啦一个代理服务器，因为服务器与服务器是没有跨域的。
+：下载网易云音乐node接口项目, 在本地启动, 为我们vue项目提供数据支持
+如何做反向代理解决跨域问题?
+本地node服务器开启cors, 负责请求的转发和
+数据接收回传
+
+3 ，网易云音乐_本地接口启动  转发qi
+Node搭建的服务, 如何把数据请求回来?
+收到请求后, 伪造身份, 请求网易云API拿到数据
+ssh
+node app.js
+npm cache clear --force
+npm i axios vant vue-router@3.5.1
+vant2
+# Vue 2 项目，安装 Vant 2：
+npm i vant@latest-v2 -S
+方式一. 自动按需引入组件 (推荐)
+babel-plugin-import 是一款 babel 插件，它会在编译过程中将 import 的写法自动转换为按需引入的方式。
+# 安装插件
+npm i babel-plugin-import -D
+
+
+main.js引入
+import '@moblie/flexible.js'//适配
+import './styles/reset.css'//清除默认样式
+
+网易云音乐_前端项目初始化
+目标：初始化项目, 下载必备包, 引入初始文件, 配置按需自动引入Vant
+⚫ 初始化工程 (vue create music-demo)
+⚫ 下载所需第三方包 axios vant vue-router
+⚫ 下载Vant自动按需引入插件 babel-plugin-import
+⚫ 在babel.config.js配置 – 看Vant文档
+⚫ 引入提前准备好的reset.css, flexible.js 到 main.js使用
+从0搭建项目要做什么?
+创建脚手架项目后, 下载需要的包, 引入需要的东西
+
+网易云音乐_需求分析
+根据需求, 创建4个页面组件
+⚫ views/Layout/index.vue
+⚫ views/Home/index.vue
+⚫ views/Search/index.vue
+⚫ views/Play/index.vue (无时间编写, 从预习资料复制使用)
+⚫ 从md笔记 – 复制页面需要的CSS代码
+需求分析如何做呢?
+根据客户需求, 分解需要完成的模块和大致效果, 创建组件
+
+布局页面  layout    Home Search 在布局文件中显示切换
+play 是播放页面
+
+用文件夹 index.vue  方式管理组件 。引入文件夹默认找 index.vue 
+
+创建组件 复制样式
+
+
+
+路由准备 封装到了单独的文件中 src下的router文件夹
+
+准备路由配置, 显示不同路由页面
+router/index.js – 配置路由规则和对应路由页面
+main.js – 引入路由对象注入到vue中
+App.vue – 留好router-view显示路由页面
+ 
+vue-router如何使用?
+下载/引入/注册/规则/路由对象/注入/显示
+改变url的hash值路径, 导致对应组件显示
+
+router-view 标签写在要路由组件要显示的位置
+是在注册路由规则的父组件中写这个标签， 
+一级路由的router-view 写在App.vue 因为要在App.vue
+显示一级路由
+
+router-view 是根据路径显示对应组件的，即路径发生变化 显示路由组件
+
+
+ B TabBar-NavBar-网络请求的封装
+ layout 
+TabBar 复制vant组件库导航 -找到集成路由功能的底部导航 
+
+NavBar 把NavBar注册引入使用, 静态效果
+NavBar导航如何使用?
+引入, 注册, 在响应位置使用, 选择属性使用
+
+NavBar 标题文字的切换
+
+把信息存到$route 当前路由对象的meta属性上
+在使用的组件数据中data this.$route.meta.title获取当前路由对象的标题
+在watch 监听器中监听数据的改变 ，把最新的值赋给标题变量
+
+网页打开默认显示
+侦听路由切换显示对应标题
+
+路由切换如何确认标题?
+当前路由信息对象里meta中标题
+监测$route改变, 提取当前路由对象信息里meta中标题
+
+
+-网络请求封装
+
+为什么要封装api?
+代码分层, 便于以后的修改, 无需触碰逻辑页面
+网络请求, 不散落在各个逻辑页面里, 封装起来方便以后修改
+
+utils/request.js – 对axios进行二次封装, 并且制定项目的根地址
+api/Home.js – 统一管理所有需要的url地址, 封装网络请求的方法并导出 
+
+ C 网易云音乐-首页-推荐歌单
+layout布局 还有图片  网络请求数据 渲染页面即可
+ rem的单位  px / fontsize字号的大小
+
+首页-最新音乐
+⚫ 引入注册使用van-cell, 并且设置一套标签和样式准备
+⚫ 在api/Home.js –最新音乐的接口方法
+⚫ 引入到Home/index.vue中, 数据铺设到页面
+
+网易云音乐-热搜关键字
+完成搜索框和热搜关键字显示
+⚫ 搜索框 – van-search组件
+⚫ api/Search.js – 热搜关键字 - 接口方法
+⚫ Search/index.vue引入-获取热搜关键字 - 铺设页面
+⚫ 点击文字填充到输入框
+按钮文字填入输入框如何实现?
+点击获取文字, 给输入框v-model绑定的变量赋值即可
+
+点击热词-搜索结果
+
+⚫ api/Search.js - 搜索结果, 接口方法
+⚫ Search/index.vue引入-获取搜索结果 - 铺设页面
+⚫ 和热搜关键字容器 – 互斥显示
+
+点击互斥是如何做的呢?
+v-if加个条件, 对应使用v-else即可
+
+
+搜索 - 上拉加载更多
+
+输入框-搜索结果
+监测输入框改变
+⚫ 观察van-search组件是否支持和实现input事件
+⚫ 绑定@input事件和方法
+⚫ 在事件处理方法中获取对应的值使用
+⚫ 如果搜索不存在的数据-要注意接口返回字段不同
+
+input事件和change事件区别?
+input: 只要内容改变实时触发
+change: 失去焦点内容改变才触发
+
+上拉加载更多
+vant list 包裹住要加载更多的结构 
+配合给的属性和onload事件 完成上拉加载更多
+
+在onload事件中请求最新的数据，最后把loading 改为false (为了下次能触发onload)
+
+输入框防抖
+避免频繁触发一个事件
+
+防抖：计时n秒，只执行最后一次，如果再次触发，重新计时。
+具体代码：在一个事件的回调函数中
+    if(this.timer) clearTimeout(this.timer) 
+    this.timer=setTimemeout(()=>{
+        包裹住
+        要防抖的代码
+    }，n)
+
+async  await 
+
+页码bug  
+1. 为什么加载更多以后, 切换数据再搜索, 结果不对?
+page变量被累加后, 一直在使用 
+2. 如何修复呢?
+点击关键词/输入框改变 – 把page改回 1
+
+layout 边距
+上下导航 固定定位
+main留出来 上下导航的位置。
+如何避免上下导航盖住内容呢?
+
+给内容套个div, 设置上下内边距, 把内容挤压到中间即可
+
+遇到重复的标签怎么办?
+看好封装哪部分, 把标签和样式放到.vue文件中, 然后复用
+
+songItem.vue
+
+flexible.js
+自动改变字体跟标签的大小 完成适配
+但是要把单位改成rem
+
+
+// 目标: Vant组件库自动适配
+// 自动让所有px转成rem (以后我们可以直接写px) - webpack配合postcss和postcss-pxtorem插件就可以翻译css代码, 把px转rem使用
+// 1. 下载 postcss  postcss-pxtorem@5.1.1 (要和当前脚手架webpack兼容) npm i postcss  postcss-pxtorem@5.1.1
+// 2. postcss.config.js - 填入插件转换的基准值 (配置可以复制md)
+// 3. 一定要重启服务器, 观察效果
+
+1. 移动端如何适配?
+把所有px转成rem
+利用flexible.js – 网页宽度改变 – 自动切换html的font-size
+2. 如何让px自动转rem?
+让webpack配合postcss和postcss-pxtorem即可

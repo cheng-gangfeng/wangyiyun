@@ -1,0 +1,86 @@
+组件库看官方文档使用
+安装 npm i vant@latest-v2 -S
+1.全部引入组件（不好浪费空间）
+方式三. 导入所有组件
+Vant 支持一次性导入所有组件，引入所有组件会增加代码包体积，因此不推荐这种做法。
+
+import Vue from 'vue';
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+Vue.use(Vant);
+Tips: 配置按需引入后，将不允许直接导入所有组件。
+如何引入Vant组件库?
+组件库是一个包, 先下载
+按照文档指引, 在main.js全局注册
+到某.vue内直接使用Vant组件名
+2，手动按需引入组件（手动一个一个引入麻烦）
+方式二. 手动按需引入组件
+在不使用插件的情况下，可以手动引入需要的组件。
+
+
+
+import Button from 'vant/lib/button';
+import 'vant/lib/button/style';
+
+引入还要注册
+
+Vant组件库如何手动按需引入使用?
+import 从vant库里引出某个组件
+import 单独引出样式
+在当前页面注册此组件名即可
+
+3，自动按需引入组件 （配置插件）推荐
+方式一. 自动按需引入组件 (推荐)
+babel-plugin-import 是一款 babel 插件，它会在编译过程中将 import 的写法自动转换为按需引入的方式。
+
+# 安装插件
+npm i babel-plugin-import -D
+// 对于使用 babel7 的用户，可以在 babel.config.js 中配置
+module.exports = {
+  plugins: [
+    ['import', {
+      libraryName: 'vant',
+      libraryDirectory: 'es',
+      style: true
+    }, 'vant']
+  ]
+};
+// 接着你可以在代码中直接引入 Vant 组件
+// 插件会自动将代码转化为方式二中的按需引入形式
+import { Button } from 'vant';
+
+如何自动按需引入Vant组件库?
+webpack依赖babel-plugin-import的插件
+把import按需引入方式, 自动转成只引入某个组件方式
+
+组件全局注册 main.js
+函数 哪里使用哪里引入 组件中局部引入
+
+函数调用
+Dialog 是一个函数，调用后会直接在页面中弹出相应的模态框。
+1.引入函数
+import { Dialog } from 'vant';
+2，使用函数 回调函数中
+Dialog({ message: '提示' });
+
+想使用某个UI界面时怎么办?
+去文档查找相关例子
+然后根据步骤和提示使用即可
+
+登录页面
+
+引入注册组件
+看代码的意思
+看文档
+可自己改代码调试看变量对应的值
+
+使用Vant组件库, 需要注意什么?
+vant组件库里有很多标签, 仔细和快速的熟悉文档
+
+1. 什么是路由?
+2. 单页面概念和优缺点?
+3. vue-router路由模块如何使用?
+4. 链接导航和编程式导航的区别?
+5. 路由嵌套和守卫如何使用?
+6. Vant组件库如何使用?
